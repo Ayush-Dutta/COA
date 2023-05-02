@@ -1,0 +1,47 @@
+VHDL Code:
+entity HS_df is
+ Port ( X : in STD_LOGIC;
+ Y : in STD_LOGIC;
+ B : out STD_LOGIC;
+ D : out STD_LOGIC);
+end HS_df;
+architecture Dataflow of HS_df is
+begin
+D<=X XOR Y;
+B<=(NOT X) AND Y;
+end Dataflow;
+
+TBW Code:
+entity HS_tbw is
+-- Port ( );
+end HS_tbw;
+architecture Behavioral of HS_tbw is
+component HS_df is
+ Port ( X : in STD_LOGIC;
+ Y : in STD_LOGIC;
+ B : out STD_LOGIC;
+ D : out STD_LOGIC);
+end component;
+signal X1 : STD_LOGIC :=’0’;
+signal Y1 : STD_LOGIC :=’0’;
+signal B1 : STD_LOGIC;
+signal D1 : STD_LOGIC;
+begin
+uut : HS_df port map (X=>X1, Y=>Y1, B=>B1, D=>D1);
+stim_proc: process
+begin
+wait for 150 ns;
+X1 <= ‘0’;
+Y1 <= ‘0’;
+wait for 150 ns;
+X1 <= ‘0’;
+Y1 <= ‘1’;
+wait for 150 ns;
+X1 <= ‘1’;
+Y1 <= ‘0’;
+wait for 150 ns;
+X1 <= ‘1’;
+Y1 <= ‘1’;
+wait;
+end process;
+end Behavioral;

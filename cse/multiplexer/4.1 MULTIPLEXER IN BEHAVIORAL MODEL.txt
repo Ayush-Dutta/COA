@@ -1,0 +1,48 @@
+VHDL Code:
+entity MUX4_BV is
+ Port ( X : in STD_LOGIC_VECTOR (3 downto 0);
+ S : in STD_LOGIC_VECTOR (1 downto 0);
+ Y : out STD_LOGIC);
+end MUX4_BV;
+architecture Behavioral of MUX4_BV is
+begin
+process(X,S)
+begin
+case S is
+when "00" =>Y<=X(0);
+when "01" =>Y<=X(1);
+when "10" =>Y<=X(2);
+when "11" =>Y<=X(3);
+when others=>NULL;
+end case;
+end process;
+end Behavioral;
+
+TBW Code:
+entity MUX4_BV_tbw is
+-- Port ( );
+end MUX4_BV_tbw;
+architecture Behavioral of MUX4_BV_tbw is
+component MUX4_BV is
+Port ( X : in STD_LOGIC_VECTOR (3 downto 0);
+ S : in STD_LOGIC_VECTOR (1 downto 0);
+ Y : out STD_LOGIC);
+end component;
+signal X1:STD_LOGIC_Vector(3 downto 0):="1010";
+signal S1:STD_LOGIC_Vector(1 downto 0):="00";
+signal Y1:STD_LOGIC;
+begin
+uut:MUX4_BV port map(X=>X1,S=>S1,Y=>Y1);
+stim_proc:process
+begin
+wait for 100 ns;
+S1<="00";
+wait for 100 ns;
+S1<="01";
+wait for 100 ns;
+S1<="10";
+wait for 100 ns;
+S1<="11";
+wait;
+end process;
+end Behavioral;

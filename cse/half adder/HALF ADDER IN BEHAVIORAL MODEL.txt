@@ -1,0 +1,59 @@
+VHDL Code:
+entity Half_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ S : out STD_LOGIC;
+ C : out STD_LOGIC);
+end Half_BV;
+architecture Behavioral of Half_BV is
+begin
+process(A,B)
+begin
+if(A=B) then
+S<='0';
+else
+S<='1';
+end if;
+if(A='1' and B='1') then
+C<= '1';
+else
+C<= '0';
+end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity Half_BV_tbw is
+-- Port ( );
+end Half_BV_tbw;
+architecture Behavioral of Half_BV_tbw is
+component Half_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ S : out STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal S1 : STD_LOGIC;
+signal C1 : STD_LOGIC;
+begin
+uut : Half_BV port map (A=>A1, B=>B1, S=>S1, C=>C1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '0';
+B1 <= '1';
+wait for 150 ns;
+64 | P a g e
+A1 <= '1';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '1';
+wait;
+end process;
+end Behavioral;

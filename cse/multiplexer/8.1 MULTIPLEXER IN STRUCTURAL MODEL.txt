@@ -1,0 +1,62 @@
+VHDL Code:
+entity MUX8_STR is
+ Port ( IP : in STD_LOGIC_VECTOR (7 downto 0);
+ SEL : in STD_LOGIC_VECTOR (2 downto 0);
+ Y : out STD_LOGIC);
+end MUX8_STR;
+architecture Structural of MUX8_STR is
+component MUX4_df is
+ Port ( X : in STD_LOGIC_VECTOR (3 downto 0);
+ S : in STD_LOGIC_VECTOR (1 downto 0);
+ Y : out STD_LOGIC);
+end component;
+component MUX2_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ S : in STD_LOGIC;
+ Y : out STD_LOGIC);
+end component;
+signal y1,y2: STD_LOGIC;
+begin
+L1: MUX4_df port map(IP(7 downto 4),SEL(1 downto 0),y1);
+L2: MUX4_df port map(IP(3 downto 0),SEL(1 downto 0),y2);
+L3: MUX2_df port map(y2,y1,SEL(2),Y);
+end Structural;
+
+TBW Code:
+entity MUX8_tbw is
+-- Port ( );
+end MUX8_tbw;
+architecture Behavioral of MUX8_tbw is
+component MUX8_STR is
+ Port ( IP : in STD_LOGIC_VECTOR (7 downto 0);
+ SEL : in STD_LOGIC_VECTOR (2 downto 0);
+ Y : out STD_LOGIC);
+end component;
+signal IP1:STD_LOGIC_VECTOR (7 downto 0):="10111011";
+signal S1:STD_LOGIC_VECTOR (2 downto 0):="000";
+signal Y1:STD_LOGIC;
+begin
+uut: MUX8_STR port map(IP=>IP1,SEL=>S1,Y=>Y1);
+stim_proc:process
+begin
+wait for 90 ns;
+S1 <= "000";
+wait for 90 ns;
+S1 <= "001";
+wait for 90 ns;
+S1 <= "010";
+wait for 90 ns;
+S1 <= "011";
+105 | P a g e
+wait for 90 ns;
+S1 <= "100";
+wait for 90 ns;
+S1 <= "101";
+wait for 90 ns;
+S1 <= "110";
+wait for 90 ns;
+S1 <= "111";
+wait;
+end process;
+end Behavioral;

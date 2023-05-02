@@ -1,0 +1,53 @@
+VHDL CODE:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity T_FF is
+ Port ( t : in STD_LOGIC;
+ clk : in STD_LOGIC;
+ q : out STD_LOGIC);
+end T_FF;
+architecture Behavioral of T_FF is
+signal temp:STD_LOGIC:='0';
+begin
+process(t,clk)
+begin
+if(clk'event and clk='1')then
+ if(t='0')then
+ temp<=temp;
+ else
+ temp<=not temp;
+ end if;
+end if;
+q<=temp;
+end process;
+end Behavioral;
+
+TBW Code:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity T_FF_TB is
+-- Port ( );
+end T_FF_TB;
+architecture Behavioral of T_FF_TB is
+component T_FF is
+ Port ( t : in STD_LOGIC;
+ clk : in STD_LOGIC;
+ q : out STD_LOGIC);
+end component;
+signal t1:STD_LOGIC:='0';
+signal clk1:STD_LOGIC:='0';
+constant clock_period:time:=50 ns;
+signal q1:STD_LOGIC;
+begin
+uut:T_FF port map(t=>t1,clk=>clk1,q=>q1);
+clk1<=not clk1 after clock_period/2;
+stim_proc:process
+begin
+wait for 50 ns;
+t1<='1';
+wait for 50 ns;
+t1<='0';
+wait for 50 ns;
+end process;
+end Behavioral;
+

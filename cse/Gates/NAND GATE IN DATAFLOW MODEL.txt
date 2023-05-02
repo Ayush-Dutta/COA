@@ -1,0 +1,43 @@
+VHDL Code:
+entity NAND_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end NAND_df;
+architecture Dataflow of NAND_df is
+begin
+C<=A NAND B;
+end Dataflow;
+
+TBW Code:
+entity NAND_tbw is
+-- Port ( );
+end NAND_tbw;
+architecture Behavioral of NAND_tbw is
+component NAND_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal C1 : STD_LOGIC;
+begin
+uut: NAND_df port map (A=>A1, B=>B1, C=>C1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '0';
+B1 <= '1';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '1';
+wait;
+end process;
+end Behavioral;

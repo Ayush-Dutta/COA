@@ -1,0 +1,43 @@
+VHDL Code:
+entity OR_NOR_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end OR_NOR_df;
+architecture Dataflow of OR_NOR_df is
+begin
+C<= (A NOR B) NOR (A NOR B);
+end Dataflow;
+
+TBW code:
+entity OR_NOR_tbw is
+-- Port ( );
+end OR_NOR_tbw;
+architecture Behavioral of OR_NOR_tbw is
+component OR_NOR_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+ end component;
+ signal A1 : STD_LOGIC :='0';
+ signal B1 : STD_LOGIC :='0';
+ signal C1 : STD_LOGIC;
+begin
+uut : OR_NOR_df port map (A=>A1, B=>B1, C=>C1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '0';
+B1 <= '1';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '1';
+wait;
+end process;
+end Behavioral;

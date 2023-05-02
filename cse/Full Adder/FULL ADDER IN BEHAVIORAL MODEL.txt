@@ -1,0 +1,95 @@
+VHDL Code:
+entity Full_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ D : in STD_LOGIC;
+ S : out STD_LOGIC;
+ C : out STD_LOGIC);
+end Full_BV;
+architecture Behavioral of Full_BV is
+begin
+process(A,B,D)
+begin
+if(A='0') then
+if(B=D) then
+S<='0';
+else
+S<='1';
+end if;
+if(B='1' and D='1') then
+C<='1';
+else
+C<='0';
+end if;
+else
+if(B=D) then
+S<='1';
+else
+S<='0';
+end if;
+if(B='0' and D='0') then
+C<='0';
+else
+C<='1';
+end if;
+end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity Full_BV_tbw is
+-- Port ( );
+end Full_BV_tbw;
+architecture Behavioral of Full_BV_tbw is
+component Full_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ D : in STD_LOGIC;
+ S : out STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal D1 : STD_LOGIC :='0';
+signal S1 : STD_LOGIC;
+signal C1 : STD_LOGIC;
+begin
+uut : Full_BV port map (A=>A1, B=>B1, D=>D1, S=>S1, C=>C1);
+stim_proc: process
+begin
+wait for 90 ns;
+A1 <= '0';
+B1 <= '0';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '0';
+D1 <= '1';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '1';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '1';
+68 | P a g e
+D1 <= '1';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '0';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '0';
+D1 <= '1';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '1';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '1';
+D1 <= '1';
+wait;
+end process;
+end Behavioral;

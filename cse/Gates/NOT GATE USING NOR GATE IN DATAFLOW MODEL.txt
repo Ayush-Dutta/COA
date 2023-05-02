@@ -1,0 +1,32 @@
+VHDL Code:
+entity NOT_NOR_df is
+ Port ( A : in STD_LOGIC;
+ B : out STD_LOGIC);
+end NOT_NOR_df;
+architecture Dataflow of NOT_NOR_df is
+begin
+B<= A NOR A;
+end Dataflow;
+
+TBW code:
+entity NOT_NOR_tbw is
+-- Port ( );
+end NOT_NOR_tbw;
+architecture Behavioral of NOT_NOR_tbw is
+component NOT_NOR_df is
+ Port ( A : in STD_LOGIC;
+ B : out STD_LOGIC);
+ end component;
+ signal A1 : STD_LOGIC :='0';
+ signal B1 : STD_LOGIC;
+begin
+uut : NOT_NOR_df port map (A=>A1, B=>B1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+wait;
+end process;
+end Behavioral;

@@ -1,0 +1,32 @@
+VHDL Code:
+entity NOT_NAND is
+ Port ( A : in STD_LOGIC;
+ B : out STD_LOGIC);
+end NOT_NAND;
+architecture Dataflow of NOT_NAND is
+begin
+B<= A NAND A;
+end Dataflow;
+
+TBW code:
+entity NOT_NAND_tbw is
+-- Port ( );
+end NOT_NAND_tbw;
+architecture Behavioral of NOT_NAND_tbw is
+component NOT_NAND is
+ Port ( A : in STD_LOGIC;
+ B : out STD_LOGIC);
+ end component;
+ signal A1 : STD_LOGIC :='0';
+ signal B1 : STD_LOGIC;
+begin
+uut : NOT_NAND port map (A=>A1, B=>B1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+wait;
+end process;
+end Behavioral;

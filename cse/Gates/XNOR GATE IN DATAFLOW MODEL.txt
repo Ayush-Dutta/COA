@@ -1,0 +1,43 @@
+VHDL Code:
+entity XNOR_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end XNOR_df;
+architecture Dataflow of XNOR_df is
+begin
+C<= A XNOR B;
+end Dataflow;
+
+TBW Code:
+entity XNOR_tbw is
+-- Port ( );
+end XNOR_tbw;
+architecture Behavioral of XNOR_tbw is
+component XNOR_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+C : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal C1 : STD_LOGIC;
+begin
+uut: XNOR_df port map (A=>A1, B=>B1, C=>C1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '0';
+B1 <= '1';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '1';
+wait;
+end process;
+end Behavioral;

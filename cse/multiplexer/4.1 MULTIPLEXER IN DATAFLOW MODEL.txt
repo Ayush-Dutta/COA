@@ -1,0 +1,42 @@
+VHDL Code:
+entity MUX4_df is
+ Port ( X : in STD_LOGIC_VECTOR (3 downto 0);
+ S : in STD_LOGIC_VECTOR (1 downto 0);
+ Y : out STD_LOGIC);
+end MUX4_df;
+architecture Dataflow of MUX4_df is
+begin
+Y<=X(0) when S="00" else
+X(1) when S="01" else
+X(2) when S="10" else
+X(3);
+end Dataflow;
+
+TBW Code:
+entity MUX4_tbw is
+-- Port ( );
+end MUX4_tbw;
+architecture Behavioral of MUX4_tbw is
+component MUX4_df is
+Port ( X : in STD_LOGIC_VECTOR (3 downto 0);
+ S : in STD_LOGIC_VECTOR (1 downto 0);
+ Y : out STD_LOGIC);
+end component;
+signal X1:STD_LOGIC_Vector(3 downto 0):="1010";
+signal S1:STD_LOGIC_Vector(1 downto 0):="00";
+signal Y1:STD_LOGIC;
+begin
+uut:MUX4_df port map(X=>X1,S=>S1,Y=>Y1);
+stim_proc:process
+begin
+wait for 100 ns;
+S1<="00";
+wait for 100 ns;
+S1<="01";
+wait for 100 ns;
+S1<="10";
+wait for 100 ns;
+S1<="11";
+wait;
+end process;
+end Behavioral;

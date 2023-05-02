@@ -1,0 +1,70 @@
+VHDL Code:
+entity FS_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : in STD_LOGIC;
+ D : out STD_LOGIC;
+ X : out STD_LOGIC);
+end FS_df;
+architecture Dataflow of FS_df is
+begin
+D<= (A XOR B) XOR C;
+X<= ((NOT A) AND B) OR (C AND (A XNOR B));
+end Dataflow;
+
+TBW Code:
+entity FS_tbw is
+-- Port ( );
+end FS_tbw;
+architecture Behavioral of FS_tbw is
+component FS_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : in STD_LOGIC;
+ D : out STD_LOGIC;
+ X : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal C1 : STD_LOGIC :='0';
+signal D1 : STD_LOGIC;
+signal X1 : STD_LOGIC;
+begin
+uut : FS_df port map (A=>A1, B=>B1, C=>C1, D=>D1, X=>X1);
+stim_proc: process
+begin
+wait for 90 ns;
+A1 <= '0';
+B1 <= '0';
+C1 <= '0';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '0';
+C1 <= '1';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '1';
+C1 <= '0';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '1';
+C1 <= '1';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '0';
+C1 <= '0';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '0';
+C1 <= '1';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '1';
+C1 <= '0';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '1';
+C1 <= '1';
+wait;
+end process;
+end Behavioral;

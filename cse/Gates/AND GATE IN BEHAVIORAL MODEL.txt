@@ -1,0 +1,51 @@
+VHDL Code:
+entity AND_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end AND_BV;
+architecture Behavioral of AND_BV is
+begin
+process(A,B)
+begin
+if(A='1' and B='1') then
+C<='1';
+else
+C<='0';
+end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity AND_BV_tbw is
+-- Port ( );
+end AND_BV_tbw;
+architecture Behavioral of AND_BV_tbw is
+component AND_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal C1 : STD_LOGIC;
+begin
+uut : AND_BV port map (A=>A1, B=>B1, C=>C1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+B1 <= '0';
+wait for 150 ns;
+A1 <= '0';
+B1 <= '1';
+wait for 150 ns;
+A1 <= '1';
+45 | P a g e
+B1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+B1 <= '1';
+wait;
+end process;
+end Behavioral;

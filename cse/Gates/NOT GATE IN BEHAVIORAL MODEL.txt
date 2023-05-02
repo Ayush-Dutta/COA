@@ -1,0 +1,39 @@
+VHDL Code:
+entity NOT_BV is
+ Port ( A : in STD_LOGIC;
+ B : out STD_LOGIC);
+end NOT_BV;
+architecture Behavioral of NOT_BV is
+begin
+process(A)
+begin
+if(A='0') then
+B<='1';
+else
+B<='0';
+end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity NOT_BV_tbw is
+-- Port ( );
+end NOT_BV_tbw;
+architecture Behavioral of NOT_BV_tbw is
+component NOT_BV is
+ Port ( A : in STD_LOGIC;
+ B : out STD_LOGIC);
+ end component;
+ signal A1 : STD_LOGIC :='0';
+ signal B1 : STD_LOGIC;
+begin
+uut : NOT_BV port map (A=>A1, B=>B1);
+stim_proc: process
+begin
+wait for 150 ns;
+A1 <= '0';
+wait for 150 ns;
+A1 <= '1';
+wait;
+end process;
+end Behavioral;

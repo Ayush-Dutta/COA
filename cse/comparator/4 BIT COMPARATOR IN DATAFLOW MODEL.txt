@@ -1,0 +1,48 @@
+VHDL Code:
+entity COMP_df is
+ Port ( A : in STD_LOGIC_VECTOR (3 downto 0);
+ B : in STD_LOGIC_VECTOR (3 downto 0);
+ LT : out STD_LOGIC;
+ GT : out STD_LOGIC;
+ EQ : out STD_LOGIC);
+end COMP_df;
+architecture Dataflow of COMP_df is
+begin
+EQ<='1' when A=B else'0';
+LT<='1' when A<B else'0';
+GT<='1' when A>B else'0';
+end Dataflow;
+
+TBW Code:
+entity COMP_tbw is
+-- Port ( );
+end COMP_tbw;
+architecture Behavioral of COMP_tbw is
+component COMP_df is
+Port ( A : in STD_LOGIC_VECTOR (3 downto 0);
+ B : in STD_LOGIC_VECTOR (3 downto 0);
+ LT : out STD_LOGIC;
+ GT : out STD_LOGIC;
+ EQ : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC_Vector(3 downto 0):="1010";
+signal B1:STD_LOGIC_Vector(3 downto 0):="0101";
+signal LT1:STD_LOGIC;
+signal GT1:STD_LOGIC;
+signal EQ1:STD_LOGIC;
+begin
+uut:COMP_df port map(A=>A1,B=>B1,LT=>LT1,GT=>GT1,EQ=>EQ1);
+stim_proc:process
+begin
+wait for 100 ns;
+A1<="0000";
+B1<="0000";
+wait for 100 ns;
+A1<="0000";
+B1<="0001";
+wait for 100 ns;
+A1<="0010";
+B1<="0000";
+wait;
+end process;
+end Behavioral;

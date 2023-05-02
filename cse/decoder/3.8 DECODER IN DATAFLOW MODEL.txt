@@ -1,0 +1,39 @@
+VHDL Code:
+entity DEC_df is
+ Port ( IP : in STD_LOGIC_VECTOR (2 downto 0);
+ OP : out STD_LOGIC_VECTOR (7 downto 0));
+end DEC_df;
+architecture Dataflow of DEC_df is
+begin
+OP(0)<='1' when IP="000" else'0';
+OP(1)<='1' when IP="001" else'0';
+OP(2)<='1' when IP="010" else'0';
+OP(3)<='1' when IP="011" else'0';
+OP(4)<='1' when IP="100" else'0';
+OP(5)<='1' when IP="101" else'0';
+OP(6)<='1' when IP="110" else'0';
+OP(7)<='1' when IP="111" else'0';
+end Dataflow;
+
+TBW Code:
+entity decoder_3_8_dftbw is
+-- Port ( );
+end decoder_3_8_dftbw;
+architecture Behavioral of
+decoder_3_8_dftbw is component
+decoder_3_8_df is Port ( x : in
+STD_LOGIC_VECTOR (2 downto 0); y :
+out STD_LOGIC_VECTOR (7 downto 0)); end
+component; signal x1:std_logic_vector(2
+downto 0) := "000"; signal
+y1:std_logic_vector(7 downto 0) ;
+begin uut: decoder_3_8_df port map
+(x=>x1,y=>y1); stim_proc: process begin
+wait for 100ns; x1<="001"; wait for 100ns;
+x1<="010"; wait for 100ns; x1<="011"; wait
+for 100ns; x1<="100"; wait for 100ns;
+x1<="101"; wait for 100ns; x1<="110"; wait
+for 100ns;
+x1<="111"; wait;
+end process;
+end Behavioral;

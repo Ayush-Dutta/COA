@@ -1,0 +1,84 @@
+VHDL CODE:
+entity FA_STR is
+ Port ( X : in STD_LOGIC;
+ Y : in STD_LOGIC;
+ Z : in STD_LOGIC;
+ SUM : out STD_LOGIC;
+ CARRY : out STD_LOGIC);
+end FA_STR;
+architecture Structural of FA_STR is
+component Half_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ S : out STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+component or_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+signal S1,C1,C2: STD_LOGIC;
+begin
+L1: Half_df port map(X,Y,S1,C1);
+L2: Half_df port map(S1,Z,SUM,C2);
+L3: or_df port map(C1,C2,CARRY);
+end Structural;
+
+TBW CODE:
+entity FA_STR_tbw is
+-- Port ( );
+end FA_STR_tbw;
+architecture Behavioral of FA_STR_tbw is
+component FA_STR is
+ Port ( X : in STD_LOGIC;
+ Y : in STD_LOGIC;
+ Z : in STD_LOGIC;
+ SUM : out STD_LOGIC;
+ CARRY : out STD_LOGIC);
+end component;
+signal A1 : STD_LOGIC :='0';
+signal B1 : STD_LOGIC :='0';
+signal D1 : STD_LOGIC :='0';
+signal S1 : STD_LOGIC;
+signal C1 : STD_LOGIC;
+begin
+uut : FA_STR port map (X=>A1, Y=>B1, Z=>D1, SUM=>S1, CARRY=>C1);
+stim_proc: process
+begin
+wait for 90 ns;
+A1 <= '0';
+B1 <= '0';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '0';
+D1 <= '1';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '1';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '0';
+B1 <= '1';
+D1 <= '1';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '0';
+101 | P a g e
+D1 <= '0';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '0';
+D1 <= '1';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '1';
+D1 <= '0';
+wait for 90 ns;
+A1 <= '1';
+B1 <= '1';
+D1 <= '1';
+wait;
+end process;
+end Behavioral;

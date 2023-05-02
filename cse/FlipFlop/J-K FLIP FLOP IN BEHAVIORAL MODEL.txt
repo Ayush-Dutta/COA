@@ -1,0 +1,62 @@
+VHDL CODE:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity JKFF_BH is
+ Port ( J : in STD_LOGIC;
+ K : in STD_LOGIC;
+ CLK : in STD_LOGIC;
+ Q : inout STD_LOGIC;
+ Qn : inout STD_LOGIC);
+end JKFF_BH;
+architecture Behavioral of JKFF_BH is
+begin
+process(J,K,CLK)
+begin
+if(CLK' event and CLK='1')then
+if(J='0' and K='1')then
+ Q<='0';
+ Qn<='1';
+elsif(J='1' and K='0')then
+ Q<='1';
+ Qn<='0';
+elsif(J='1' and K='1')then
+ Q<=Qn;
+ Qn<=Q;
+ end if;
+end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity JKFF_BH_TB is
+-- Port ( );
+end JKFF_BH_TB;
+architecture Behavioral of JKFF_BH_TB is
+component JKFF_BH is
+Port ( J : in STD_LOGIC;
+ K : in STD_LOGIC;
+ CLK : in STD_LOGIC;
+ Q : inout STD_LOGIC;
+ Qn : inout STD_LOGIC);
+end component;
+signal j1:STD_LOGIC:='0';
+signal k1:STD_LOGIC:='0';
+signal clk1:STD_LOGIC:='0';
+constant clock_period:time:=50ns;
+signal q1:STD_LOGIC;
+signal qn1:STD_LOGIC;
+begin
+uut:JKFF_BH port map(J=>j1,K=>k1,CLK=>clk1,Q=>q1,Qn=>qn1);
+clk1<=not clk1 after clock_period/2;
+stim_proc:process
+begin
+j1<='0';
+k1<='1';
+wait for 100ns;
+j1<='1';
+k1<='0';
+wait for 100ns;
+j1<='1';
+k1<='1';
+end process;
+end Behavioral;

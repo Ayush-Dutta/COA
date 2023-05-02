@@ -1,0 +1,60 @@
+VHDL Code:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity ASC_ST is
+ Port ( Ci : in STD_LOGIC;
+ A : in STD_LOGIC_VECTOR (3 downto 0);
+ B : in STD_LOGIC_VECTOR (3 downto 0);
+ S : out STD_LOGIC_VECTOR (3 downto 0);
+ C : out STD_LOGIC);
+end ASC_ST;
+architecture Structural of ASC_ST is
+component Full_df is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ D : in STD_LOGIC;
+ S : out STD_LOGIC;
+ C : out STD_LOGIC);
+end component;
+signal C0:STD_LOGIC;
+signal C1:STD_LOGIC;
+signal C2:STD_LOGIC;
+signal temp:STD_LOGIC_VECTOR(3 downto 0);
+begin
+gk: for i in 0 to 3 generate
+ temp(i) <= b(i) xor Ci;
+end generate gk;
+l1:Full_df port map(A(0),temp(0),Ci,S(0),C0);
+l2:Full_df port map(A(1),temp(1),C0,S(1),C1);
+l3:Full_df port map(A(2),temp(2),C1,S(2),C2);
+l4:Full_df port map(A(3),temp(3),C2,S(3),C);
+end Structural;
+
+TBW Code:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity ADD_SUB_CU_ST_TB is
+-- Port ( );
+end ADD_SUB_CU_ST_TB;
+architecture Structural of ADD_SUB_CU_ST_TB is
+component ADD_SUB_CU_ST is
+ Port ( a : in STD_LOGIC_VECTOR (3 downto 0);
+ b : in STD_LOGIC_VECTOR (3 downto 0);
+ cin : in STD_LOGIC;
+ s : out STD_LOGIC_VECTOR (3 downto 0);
+ cout : out STD_LOGIC);
+end component;
+signal a1:STD_LOGIC_VECTOR(3 downto 0):="1111";
+signal b1:STD_LOGIC_VECTOR(3 downto 0):="0101";
+signal cin1:STD_LOGIC:='0';
+signal s1:STD_LOGIC_VECTOR(3 downto 0);
+signal c:STD_LOGIC;
+begin
+uut:ADD_SUB_CU_ST port map(a=>a1,b=>b1,cin=>cin1,s=>s1,cout=>c);
+stim_proc: process
+begin
+wait for 150 ns;
+cin1<='1';
+wait;
+end process;
+end Structural;

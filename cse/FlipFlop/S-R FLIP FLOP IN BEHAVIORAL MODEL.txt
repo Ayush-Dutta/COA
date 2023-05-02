@@ -1,0 +1,62 @@
+VHDL Code:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity SRFF_BH is
+ Port ( S : in STD_LOGIC;
+ R : in STD_LOGIC;
+ CLK : in STD_LOGIC;
+ Q : out STD_LOGIC;
+ Qn : out STD_LOGIC);
+end SRFF_BH;
+architecture Behavioral of SRFF_BH is
+begin
+process(S,R,CLK)
+begin
+ if(CLK' event and CLK='1')then
+ if(S='0' and R='1')then
+ Q<='0';
+ Qn<='1';
+ elsif(S='1' and R='0')then
+ Q<='1';
+ Qn<='0';
+ elsif(S='1' and R='1')then
+ Q<='X';
+ Qn<='X';
+ end if;
+ end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity SRFF_BH_TB is
+-- Port ( );
+end SRFFBH_BH_TB;
+architecture Behavioral of SRFF_BH_TB is
+component SRFF_BH is
+ Port ( S : in STD_LOGIC;
+ R : in STD_LOGIC;
+ CLK : in STD_LOGIC;
+ Q : out STD_LOGIC;
+ Qn : out STD_LOGIC;
+end component;
+signal s1:STD_LOGIC:='0';
+signal r1:STD_LOGIC:='0';
+signal clk1:STD_LOGIC:='0';
+constant clock_period:time:=60ns;
+signal q1:STD_LOGIC;
+signal qn1:STD_LOGIC;
+begin
+uut:SRFF_BH port map(S=>s1,R=>r1,CLK=>clk1,Q=>q1,Qn=>qn1);
+clk1<=not clk1 after clock_period/2;
+stim_proc:process
+begin
+s1<='0';
+r1<='1';
+wait for 100ns;
+s1<='1';
+r1<='0';
+wait for 100ns;
+s1<='1';
+r1<='1';
+end process;
+end Behavioral;

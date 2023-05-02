@@ -1,0 +1,68 @@
+VHDL Code:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity ALU_BV is
+ Port ( A : in unsigned (3 downto 0);
+ B : in unsigned (3 downto 0);
+ S : in STD_LOGIC_VECTOR (2 downto 0);
+ R : out unsigned (3 downto 0));
+end ALU_BV;
+architecture Behavioral of ALU_BV is
+begin
+process(A,B,S)
+begin
+case S is
+when “000”=>R<=A+B;
+when “001”=>R<=A-B;
+when “010”=>R<=A+1;
+when “011”=>R<=A-1;
+when “100”=>R<=A AND B;
+when “101”=>R<=A OR B;
+when “110”=>R<=NOT A;
+when “111”=>R<=A XOR B;
+when OTHERS =>NULL;
+end case;
+end process;
+end Behavioral;
+
+TBW Code:
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity ALU_tbw is
+-- Port ( );
+end ALU_tbw;
+architecture Behavioral of ALU_tbw is
+component ALU_BV is
+ Port ( A : in unsigned (3 downto 0);
+ B : in unsigned (3 downto 0);
+ S : in STD_LOGIC_VECTOR (2 downto 0);
+ R : out unsigned (3 downto 0));
+end component;
+signal A1:unsigned (3 downto 0) :=”0110”;
+signal B1:unsigned (3 downto 0) :=”0010”;
+signal S1:STD_LOGIC_VECTOR (2 downto 0) :=”000”;
+signal R1:unsigned (3 downto 0);
+begin
+uut:ALU_BV port map(A=>A1,B=>B1,S=>S1,R=>R1);
+stim_proc:process
+begin
+wait for 50 ns;
+S1<=”000”;
+wait for 50 ns;
+S1<=”001”;
+wait for 50 ns;
+S1<=”010”;
+wait for 50 ns;
+S1<=”011”;
+wait for 50 ns;
+S1<=”100”;
+91 | P a g e
+wait for 50 ns;
+S1<=”101”;
+wait for 50 ns;
+S1<=”110”;
+wait for 50 ns;
+S1<=”111”;
+wait;
+end process;
+end Behavioral;

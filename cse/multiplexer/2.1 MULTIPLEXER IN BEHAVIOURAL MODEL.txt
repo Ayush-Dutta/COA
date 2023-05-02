@@ -1,0 +1,45 @@
+VHDL Code:
+entity MUX2_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ S : in STD_LOGIC;
+ Y : out STD_LOGIC);
+end MUX2_BV;
+architecture Behavioral of MUX2_BV is
+begin
+process(A,B,S)
+begin
+if(S='0') then
+Y<=A;
+else
+Y<=B;
+end if;
+end process;
+end Behavioral;
+
+TBW Code:
+entity MUX2_BV_tbw is
+-- Port ( );
+end MUX2_BV_tbw;
+architecture Behavioral of MUX2_BV_tbw is
+component MUX2_BV is
+ Port ( A : in STD_LOGIC;
+ B : in STD_LOGIC;
+ S : in STD_LOGIC;
+ Y : out STD_LOGIC);
+end component;
+signal A1:STD_LOGIC :='0';
+signal B1:STD_LOGIC :='1';
+signal S1:STD_LOGIC :='0';
+signal Y1:STD_LOGIC;
+begin
+uut:MUX2_BV port map(A=>A1,B=>B1,S=>S1,Y=>Y1);
+stim_proc: process
+begin
+wait for 150ns;
+S1<='0';
+wait for 150ns;
+S1<='1';
+wait;
+end process;
+end Behavioral;
